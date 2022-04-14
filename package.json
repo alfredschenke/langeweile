@@ -1,0 +1,53 @@
+{
+  "name": "@afredschenke/memory",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.html",
+  "scripts": {
+    "clean": "shx rm -rf dist bundle",
+    "prebuild": "run-s clean",
+    "prestart": "run-s clean",
+    "build": "rollup --config rollup.config.ts --configPlugin typescript",
+    "start:compile": "rollup --config rollup.config.ts --configPlugin typescript --watch",
+    "start:serve": "http-server ./dist --silent --cors -a localhost --port 3000",
+    "start": "run-p start:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alfredschenke/memory.git"
+  },
+  "author": {
+    "email": "david@enke.dev",
+    "name": "David Enke"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alfredschenke/memory/issues"
+  },
+  "homepage": "https://github.com/alfredschenke/memory#readme",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "21.0.3",
+    "@rollup/plugin-html": "0.2.4",
+    "@rollup/plugin-node-resolve": "13.2.0",
+    "@rollup/plugin-typescript": "8.3.2",
+    "autoprefixer": "10.4.4",
+    "http-server": "14.1.0",
+    "npm-run-all": "4.1.5",
+    "postcss": "8.4.12",
+    "rollup": "2.70.1",
+    "rollup-plugin-copy": "3.4.0",
+    "rollup-plugin-minify-html-literals": "1.2.6",
+    "rollup-plugin-sass": "1.2.12",
+    "rollup-plugin-summary": "1.4.0",
+    "rollup-plugin-terser": "7.0.2",
+    "sass": "1.50.0",
+    "shx": "0.3.4",
+    "ts-lit-plugin": "1.2.1",
+    "tslib": "2.3.1",
+    "typescript": "4.6.3"
+  },
+  "dependencies": {
+    "@fontsource/roboto-condensed": "4.5.6",
+    "lit": "2.2.2"
+  }
+}

@@ -1,0 +1,30 @@
+@use '~@fontsource/roboto-condensed/scss/mixins' as RobotoCondensed;
+
+// prettier-ignore
+@include RobotoCondensed.fontFace(
+  $weight: 300,
+  $display: fallback,
+  $fontDir: '/assets/fonts/roboto-condensed'
+);
+
+// prettier-ignore
+@include RobotoCondensed.fontFace(
+  $weight: 400,
+  $display: fallback,
+  $fontDir: '/assets/fonts/roboto-condensed'
+);
+
+:root {
+  --color-background: #333;
+  --color-typography: #fefefe;
+}
+
+body {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 300;
+  
+  background: var(--color-background);
+  color: var(--color-typography);
+
+  margin: 30px 50px;
+}
