@@ -2,7 +2,7 @@ import shuffle from 'lodash-es/shuffle';
 import { css, html, LitElement, PropertyValues, unsafeCSS } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
-import styles from './game.component.scss';
+import styles from './memory.component.scss';
 
 enum PlayState {
   Ready = 0,
@@ -10,8 +10,8 @@ enum PlayState {
   Finished = 2,
 }
 
-@customElement('asm-game')
-export class Game extends LitElement {
+@customElement('asm-memory')
+export class Memory extends LitElement {
   static readonly styles = css`
     ${unsafeCSS(styles)}
   `;
@@ -58,6 +58,9 @@ export class Game extends LitElement {
   challengedTiles: number[] = [];
 
   @state()
+  challenges = 0;
+
+  @state()
   playState: PlayState = PlayState.Ready;
 
   protected updated(changedProperties: PropertyValues<this>) {
@@ -76,6 +79,7 @@ export class Game extends LitElement {
     // shuffle tiles and reset play state
     this.images = shuffle(pairs);
     this.playState = PlayState.Ready;
+    this.challenges = 0;
     this.isInteractive = true;
   }
 
@@ -102,8 +106,9 @@ export class Game extends LitElement {
 
       // match cards if enough revealed
       case 2:
-        // pick challenged ids
+        // pick challenged ids and increase count
         const [first, second] = this.challengedTiles;
+        ++this.challenges;
         // store successfull result and wait to allow the player to recognize
         if (this.images[first] === this.images[second]) {
           await new Promise(resolve => window.setTimeout(resolve, this.waitOnSuccess));
@@ -116,7 +121,19 @@ export class Game extends LitElement {
         }
         // reset challenge
         this.challengedTiles = [];
+        // check play state
+        this.checkPlayState();
         break;
+    }
+  }
+
+  private checkPlayState() {
+    if (this.challenges === 0) {
+      this.playState = PlayState.Ready;
+    } else if (this.solvedTiles.length === this.images.length / 2) {
+      this.playState = PlayState.Finished;
+    } else {
+      this.playState = PlayState.Playing;
     }
   }
 

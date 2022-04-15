@@ -1,10 +1,10 @@
 import { css, html, LitElement, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import styles from './tile.component.scss';
+import styles from './memory-tile.component.scss';
 
-@customElement('asm-tile')
-export class Tile extends LitElement {
+@customElement('asm-memory-tile')
+export class MemoryTile extends LitElement {
   static readonly styles = css`
     ${unsafeCSS(styles)}
   `;
