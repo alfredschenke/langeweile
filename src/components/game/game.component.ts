@@ -16,14 +16,31 @@ export class Game extends LitElement {
     ${unsafeCSS(styles)}
   `;
 
+  /**
+   * amount of pairs for the game
+   */
   @property({ reflect: true, type: Number })
   pairs = 8;
 
-  @property({ reflect: true, type: Number })
-  wait = 2000;
-
+  /**
+   * where the json lsit of the image paths can be found
+   */
   @property({ attribute: 'sources-path', reflect: true, type: String })
   sourcesPath!: string;
+
+  /**
+   * how long the interactions are disabled (the game is paused)
+   * once the challenge has failed
+   */
+  @property({ attribute: 'wait-on-fail', reflect: true, type: Number })
+  waitOnFail = 2000;
+
+  /**
+   * how long the interactions are disabled (the game is paused)
+   * once the challenge was successfull
+   */
+  @property({ attribute: 'wait-on-success', reflect: true, type: Number })
+  waitOnSuccess = 500;
 
   @state()
   isInteractive = false;
@@ -81,19 +98,23 @@ export class Game extends LitElement {
         // fall through with delay if challengable
         if (this.challengedTiles.length < 2) {
           break;
-        } else {
-          await new Promise(resolve => window.setTimeout(resolve, this.wait));
         }
 
       // match cards if enough revealed
       case 2:
-        // store result and reset challenge
+        // pick challenged ids
         const [first, second] = this.challengedTiles;
+        // store successfull result and wait to allow the player to recognize
         if (this.images[first] === this.images[second]) {
+          await new Promise(resolve => window.setTimeout(resolve, this.waitOnSuccess));
           this.solvedTiles = [...this.solvedTiles, image];
-        } else {
+        }
+        // roll back if failed and wait to allow the player to check
+        else {
+          await new Promise(resolve => window.setTimeout(resolve, this.waitOnFail));
           this.revealedTiles = this.revealedTiles.filter(tile => !this.challengedTiles.includes(tile));
         }
+        // reset challenge
         this.challengedTiles = [];
         break;
     }
