@@ -156,15 +156,23 @@ export class Memory extends LitElement {
 
   // prettier-ignore
   render() {
-    return html`${this.images.map(
-      (image, index) => html`
-        <asm-memory-tile
-          ?covered="${this.isCovered(index)}"
-          ?solved="${this.isSolved(image)}"
-          src="${image}"
-          @click="${() => this.handleTileClick(index, image)}"
-        ></asm-memory-tile>
-      `,
-    )}`;
+    return html`
+      <header class="title">
+        <h1>Alfreds <strong>Memory</strong></h1>
+        <span>Züge: <strong>${this.challenges}</strong></span>
+      </header>
+      <div class="tiles">
+        ${this.images.map(
+          (image, index) => html`
+            <asm-memory-tile
+              ?covered="${this.isCovered(index)}"
+              ?solved="${this.isSolved(image)}"
+              src="${image}"
+              @click="${() => this.handleTileClick(index, image)}"
+            ></asm-memory-tile>
+          `,
+        )}
+      </div>
+    `;
   }
 }

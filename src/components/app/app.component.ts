@@ -10,9 +10,6 @@ export class App extends LitElement {
   `;
 
   render() {
-    return html`
-      <h1 class="title">Alfreds <strong>Memory</strong></h1>
-      <asm-memory class="canvas" sources-path="/images.json"></asm-memory>
-    `;
+    return html`<asm-memory sources-path="/images.json"></asm-memory>`;
   }
 }
