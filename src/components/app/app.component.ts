@@ -12,7 +12,7 @@ export class App extends LitElement {
   render() {
     return html`
       <h1 class="title">Alfreds <strong>Memory</strong></h1>
-      <asm-game class="canvas" sources-path="/images.json"></asm-game>
+      <asm-memory class="canvas" sources-path="/images.json"></asm-memory>
     `;
   }
 }

@@ -158,12 +158,12 @@ export class Memory extends LitElement {
   render() {
     return html`${this.images.map(
       (image, index) => html`
-        <asm-tile
+        <asm-memory-tile
           ?covered="${this.isCovered(index)}"
           ?solved="${this.isSolved(image)}"
           src="${image}"
           @click="${() => this.handleTileClick(index, image)}"
-        ></asm-tile>
+        ></asm-memory-tile>
       `,
     )}`;
   }
