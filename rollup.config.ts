@@ -1,6 +1,9 @@
+import glob from 'fast-glob';
+import { writeFile } from 'fs/promises';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
-import { defineConfig } from 'rollup';
+
+import { defineConfig, Plugin } from 'rollup';
 
 import html from '@rollup/plugin-html';
 import resolve from '@rollup/plugin-node-resolve';
@@ -26,11 +29,23 @@ export default defineConfig({
     copy({
       targets: [
         {
+          src: 'src/assets/*',
+          dest: 'dist/assets',
+        },
+        {
           src: 'node_modules/@fontsource/roboto-condensed/files/*',
           dest: 'dist/assets/fonts/roboto-condensed',
         },
       ],
     }),
+    {
+      name: 'store-image-list',
+      generateBundle: async () => {
+        const sources = await glob('src/assets/images/*.jpg');
+        const images = sources.map(source => source.replace(/^src/, ''));
+        await writeFile('./dist/images.json', JSON.stringify(images));
+      },
+    } as Plugin,
     resolve(),
     html({ title: 'Alfreds Memory' }),
     sass({ processor: css => postcss([autoprefixer]).process(css, { from: undefined }) }),

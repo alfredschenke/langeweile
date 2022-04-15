@@ -1,0 +1,42 @@
+:host {
+  display: block;
+  transition: opacity .5s ease-in-out;
+  opacity: 1;
+  perspective: 1000px;
+}
+
+:host([solved]) {
+  opacity: .25;
+}
+
+figure {
+  margin: 0;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+
+  :host(:not([covered])) & {
+    transform: rotateY(180deg);
+    transition: transform 0.5s;
+  }
+}
+
+img {
+  height: auto;
+  width: 100%;
+}
+
+.front,
+.back {
+  backface-visibility: hidden;
+  border-radius: 3px;
+}
+
+.front {
+  transform: rotateY(180deg);
+}
+
+.back {
+  position: absolute;
+  inset: 0;
+  background-color: #ccc;
+}
