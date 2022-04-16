@@ -37,7 +37,7 @@ export class Memory extends LitElement {
    * once the challenge has failed
    */
   @property({ attribute: 'wait-on-fail', reflect: true, type: Number })
-  waitOnFail = 500;
+  waitOnFail = 2000;
 
   /**
    * how long the interactions are disabled (the game is paused)
