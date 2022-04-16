@@ -3,6 +3,8 @@ import shuffle from 'lodash-es/shuffle';
 import { css, html, LitElement, PropertyValues, unsafeCSS } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 
+import '../memory-tile/memory-tile.component';
+
 import styles from './memory.component.scss';
 
 enum PlayState {

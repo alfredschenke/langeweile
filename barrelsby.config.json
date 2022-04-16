@@ -1,6 +1,0 @@
-{
-  "delete": true,
-  "directory": "./src",
-  "exclude": "\\.d\\.ts$",
-  "singleQuotes": true
-}
