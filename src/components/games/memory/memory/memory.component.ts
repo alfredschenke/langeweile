@@ -77,7 +77,7 @@ export class Memory extends LitElement {
     // load image list, restrict and double it
     const sources = await fetch(path);
     const images = await sources.json();
-    const reduced = images.slice(0, this.pairs);
+    const reduced = shuffle(images).slice(0, this.pairs);
     const pairs = [...reduced, ...reduced];
 
     // shuffle tiles and reset play state
