@@ -10,6 +10,16 @@ export class App extends LitElement {
   `;
 
   render() {
-    return html`<slot></slot>`;
+    return html`
+      <header>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/games/memory">Memory</a>
+        </nav>
+      </header>
+      <main>
+        <slot></slot>
+      </main>
+    `;
   }
 }

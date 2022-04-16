@@ -176,7 +176,6 @@ export class Memory extends LitElement {
     this.loadImages(this.sourcesPath);
   }
 
-  // prettier-ignore
   render() {
     return html`
       <header class="title">
@@ -196,13 +195,7 @@ export class Memory extends LitElement {
         )}
       </div>
       <canvas></canvas>
-      <button
-        class="reload"
-        ?hidden="${this.playState < PlayState.Finished}"
-        @click="${() => this.handleReloadClick()}"
-      >
-        &#8635;
-      </button>
+      <button class="reload" ?hidden="${this.playState < PlayState.Finished}" @click="${() => this.handleReloadClick()}">&#8635;</button>
     `;
   }
 }
