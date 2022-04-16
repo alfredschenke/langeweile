@@ -11,7 +11,14 @@ export class App extends LitElement {
     ${unsafeCSS(styles)}
   `;
 
+  // prettier-ignore
   render() {
-    return html`<asm-memory sources-path="/images.json"></asm-memory>`;
+    return html`
+      <asm-memory
+        sources-path="/images.json"
+        wait-on-fail="1000"
+        wait-on-success="500"
+      ></asm-memory>
+    `;
   }
 }
