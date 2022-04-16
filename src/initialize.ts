@@ -10,4 +10,4 @@ if (document.getElementById(GLOBAL_STYLE_ID) === null) {
 }
 
 // add app component
-document.body.innerHTML = '<asm-app></asm-app>';
+document.body.innerHTML = '<asm-root></asm-root>';

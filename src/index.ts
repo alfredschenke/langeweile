@@ -3,6 +3,6 @@
  */
 
 export * from './initialize';
-export * from './components/app/app.component';
+export * from './components/app/root/root.component';
 export * from './components/games/memory/memory/memory.component';
 export * from './components/games/memory/memory-tile/memory-tile.component';
