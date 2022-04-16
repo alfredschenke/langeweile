@@ -32,14 +32,14 @@ export class Memory extends LitElement {
    * where the json lsit of the image paths can be found
    */
   @property({ attribute: 'sources-path', reflect: true, type: String })
-  sourcesPath!: string;
+  sourcesPath = '/assets/images/memory.json';
 
   /**
    * how long the interactions are disabled (the game is paused)
    * once the challenge has failed
    */
   @property({ attribute: 'wait-on-fail', reflect: true, type: Number })
-  waitOnFail = 2000;
+  waitOnFail = 1000;
 
   /**
    * how long the interactions are disabled (the game is paused)

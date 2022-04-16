@@ -45,9 +45,9 @@ export default defineConfig({
     {
       name: 'store-image-list',
       generateBundle: async () => {
-        const sources = await glob('src/assets/images/*.jpg');
+        const sources = await glob('src/assets/images/memory/*.jpg');
         const images = sources.map(source => source.replace(/^src/, ''));
-        await writeFile('./dist/images.json', JSON.stringify(images));
+        await writeFile('./dist/assets/images/memory.json', JSON.stringify(images));
       },
     } as Plugin,
     resolve(),
