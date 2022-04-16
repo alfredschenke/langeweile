@@ -3,31 +3,21 @@
   display: block;
 }
 
-h1 {
-  font-weight: inherit;
-  margin: 0;
-}
-
 strong {
   font-weight: 400;
-}
-
-.title {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding-bottom: 30px;
-  text-transform: uppercase;
-
-  span {
-    font-size: 1.5em;
-  }
 }
 
 .tiles {
   display: grid;
   gap: 30px;
   grid-template-columns: repeat(4, 1fr);
+}
+
+.info {
+  padding-top: 30px;
+  text-align: right;
+  font-size: 1.5em;
+  text-transform: uppercase;
 }
 
 canvas {

@@ -1,6 +1,7 @@
 import { Route, Router } from '@vaadin/router';
 import { injectGlobalStyles } from './utils/style.utils';
 
+import './components/app/root/root.component';
 import styles from './index.scss';
 
 // inject global style
@@ -13,7 +14,7 @@ const routes: Route[] = [
     component: 'asm-root',
     children: [
       {
-        path: '',
+        path: '/',
         redirect: '/games/memory',
       },
       {
@@ -21,6 +22,13 @@ const routes: Route[] = [
         component: 'asm-memory',
         action: async () => {
           await import('./components/games/memory/memory/memory.component');
+        },
+      },
+      {
+        path: '/games/connect-four',
+        component: 'asm-connect-four',
+        action: async () => {
+          await import('./components/games/connect-four/connect-four/connect-four.component');
         },
       },
     ],

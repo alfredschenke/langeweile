@@ -178,10 +178,6 @@ export class Memory extends LitElement {
 
   render() {
     return html`
-      <header class="title">
-        <h1>Alfreds <strong>Memory</strong></h1>
-        <span>Züge: <strong>${this.challenges}</strong></span>
-      </header>
       <div class="tiles">
         ${this.images.map(
           (image, index) => html`
@@ -194,6 +190,7 @@ export class Memory extends LitElement {
           `,
         )}
       </div>
+      <div class="info">Züge: <strong>${this.challenges}</strong></div>
       <canvas></canvas>
       <button class="reload" ?hidden="${this.playState < PlayState.Finished}" @click="${() => this.handleReloadClick()}">&#8635;</button>
     `;
