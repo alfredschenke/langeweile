@@ -1,7 +1,7 @@
 {
-  "name": "@afredschenke/memory",
+  "name": "@afredschenke/langeweile",
   "version": "0.0.1",
-  "description": "",
+  "description": "Alfreds games",
   "main": "dist/index.html",
   "scripts": {
     "clean": "shx rm -rf dist bundle",
