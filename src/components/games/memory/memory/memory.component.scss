@@ -1,3 +1,8 @@
+:host {
+  position: relative;
+  display: block;
+}
+
 h1 {
   font-weight: inherit;
   margin: 0;
@@ -23,4 +28,25 @@ strong {
   display: grid;
   gap: 30px;
   grid-template-columns: repeat(4, 1fr);
+}
+
+canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  height: 100%;
+  width: 100%;
+}
+
+.reload {
+  position: absolute;
+  inset: 50% auto auto 50%;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  color: var(--color-typography);
+  font-size: 18em;
+  transform: translate(-50%, -50%) rotate(45deg);
 }

@@ -1,6 +1,7 @@
+import confetti from 'canvas-confetti';
 import shuffle from 'lodash-es/shuffle';
 import { css, html, LitElement, PropertyValues, unsafeCSS } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property, query, state } from 'lit/decorators.js';
 
 import styles from './memory.component.scss';
 
@@ -15,6 +16,9 @@ export class Memory extends LitElement {
   static readonly styles = css`
     ${unsafeCSS(styles)}
   `;
+
+  @query('canvas')
+  private readonly canvasRef!: HTMLCanvasElement;
 
   /**
    * amount of pairs for the game
@@ -33,7 +37,7 @@ export class Memory extends LitElement {
    * once the challenge has failed
    */
   @property({ attribute: 'wait-on-fail', reflect: true, type: Number })
-  waitOnFail = 2000;
+  waitOnFail = 500;
 
   /**
    * how long the interactions are disabled (the game is paused)
@@ -78,17 +82,15 @@ export class Memory extends LitElement {
 
     // shuffle tiles and reset play state
     this.images = shuffle(pairs);
+    this.resetGame();
+  }
+
+  private resetGame() {
+    this.revealedTiles = [];
+    this.solvedTiles = [];
     this.playState = PlayState.Ready;
     this.challenges = 0;
     this.isInteractive = true;
-  }
-
-  private isCovered(index: number): boolean {
-    return this.playState < PlayState.Finished && !this.revealedTiles.includes(index);
-  }
-
-  private isSolved(image: string): boolean {
-    return this.playState < PlayState.Finished && this.solvedTiles.includes(image);
   }
 
   private async challengeTile(index: number, image: string) {
@@ -132,9 +134,21 @@ export class Memory extends LitElement {
       this.playState = PlayState.Ready;
     } else if (this.solvedTiles.length === this.images.length / 2) {
       this.playState = PlayState.Finished;
+      this.finalizeGame();
     } else {
       this.playState = PlayState.Playing;
     }
+  }
+
+  private finalizeGame() {
+    confetti.create(this.canvasRef, {
+      resize: true,
+      useWorker: true,
+    })({
+      particleCount: 100,
+      spread: 160,
+      startVelocity: 30,
+    });
   }
 
   private async handleTileClick(index: number, image: string) {
@@ -154,6 +168,12 @@ export class Memory extends LitElement {
     this.isInteractive = true;
   }
 
+  private async handleReloadClick() {
+    this.resetGame();
+    await new Promise(resolve => window.setTimeout(resolve, 500));
+    this.loadImages(this.sourcesPath);
+  }
+
   // prettier-ignore
   render() {
     return html`
@@ -165,14 +185,22 @@ export class Memory extends LitElement {
         ${this.images.map(
           (image, index) => html`
             <asm-memory-tile
-              ?covered="${this.isCovered(index)}"
-              ?solved="${this.isSolved(image)}"
+              ?covered="${this.playState < PlayState.Finished && !this.revealedTiles.includes(index)}"
+              ?solved="${this.solvedTiles.includes(image)}"
               src="${image}"
               @click="${() => this.handleTileClick(index, image)}"
             ></asm-memory-tile>
           `,
         )}
       </div>
+      <canvas></canvas>
+      <button
+        class="reload"
+        ?hidden="${this.playState < PlayState.Finished}"
+        @click="${() => this.handleReloadClick()}"
+      >
+        &#8635;
+      </button>
     `;
   }
 }
