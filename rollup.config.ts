@@ -29,6 +29,10 @@ export default defineConfig({
     copy({
       targets: [
         {
+          src: 'src/_redirects',
+          dest: 'dist/',
+        },
+        {
           src: 'src/assets/*',
           dest: 'dist/assets',
         },
