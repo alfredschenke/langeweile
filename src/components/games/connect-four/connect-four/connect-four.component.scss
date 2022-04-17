@@ -1,11 +1,39 @@
 :host {
+  ---connect-four-column-count: var(--connect-four-column-count, 4);
+  ---connect-four-row-count: var(--connect-four-row-count, 4);
+}
+
+:host {
   display: flex;
+  margin: 0 10vw;
   flex-direction: row;
   justify-content: space-between;
 }
 
 .column {
   display: flex;
+  min-height: calc(var(---connect-four-row-count) * 100%);
+
+  flex: 1 0 auto;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: flex-end;
+
+  cursor: pointer;
+
+  // extract
+  span {
+    position: relative;
+    display: block;
+    padding-top: 100%;
+    width: 100%;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 20%;
+      border-radius: 50%;
+      background-color: aquamarine;
+    }
+  }
 }

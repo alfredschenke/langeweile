@@ -15,16 +15,17 @@
 );
 
 :root {
-  --color-background: #333;
-  --color-typography: #fefefe;
+  --color-grey-dark: #333;
+  --color-grey-medium: #ccc;
+  --color-light: #fefefe;
 }
 
 body {
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: 300;
   
-  background: var(--color-background);
-  color: var(--color-typography);
+  background: var(--color-grey-dark);
+  color: var(--color-light);
 
   margin: 30px 50px;
   user-select: none;
