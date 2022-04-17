@@ -51,7 +51,10 @@ export default defineConfig({
       },
     } as Plugin,
     resolve(),
-    html({ title: 'Alfreds Memory' }),
+    html({
+      meta: [{ name: 'viewport', content: 'width=device-width, user-scalable=no' }],
+      title: 'Alfreds Memory',
+    }),
     sass({ processor: css => postcss([autoprefixer]).process(css, { from: undefined }) }),
     typescript(),
     minifyHTML(),

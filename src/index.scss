@@ -20,6 +20,10 @@
   --color-light: #fefefe;
 }
 
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: 300;
