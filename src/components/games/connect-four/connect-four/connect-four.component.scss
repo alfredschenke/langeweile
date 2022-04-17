@@ -4,15 +4,28 @@
 }
 
 :host {
+  position: relative;
+  display: block;
+  padding-top: calc(var(---connect-four-row-count) / var(---connect-four-column-count) * 100%);
+  width: 100%;
+}
+
+.board {
+  position: absolute;
+  inset: 0;
+
   display: flex;
-  margin: 0 10vw;
   flex-direction: row;
   justify-content: space-between;
+
+  background-color: var(--color-grey-dark);
+  border-radius: var(--border-radius);
+  mask-image: url('data:image/svg+xml;charset=utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30"/></svg>');
+  mask-size: calc(100% / var(---connect-four-column-count));
 }
 
 .column {
   display: flex;
-  min-height: calc(var(---connect-four-row-count) * 100%);
 
   flex: 1 0 auto;
   flex-direction: column;
@@ -33,7 +46,7 @@
       position: absolute;
       inset: 20%;
       border-radius: 50%;
-      background-color: aquamarine;
+      background-color: var(--color-aquamarine);
     }
   }
 }

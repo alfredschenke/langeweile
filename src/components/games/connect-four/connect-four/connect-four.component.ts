@@ -1,5 +1,7 @@
 import { css, html, LitElement, PropertyValues, unsafeCSS } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, queryAll } from 'lit/decorators.js';
+
+import '../connect-four-token/connect-four-token.component';
 
 import styles from './connect-four.component.scss';
 
@@ -8,6 +10,9 @@ export class ConnectFour extends LitElement {
   static readonly styles = css`
     ${unsafeCSS(styles)}
   `;
+
+  @queryAll('.column')
+  private readonly columns!: NodeListOf<HTMLDivElement>;
 
   @property({ attribute: 'column-count', reflect: true, type: Number })
   columnCount = 7;
@@ -24,18 +29,28 @@ export class ConnectFour extends LitElement {
     }
   }
 
-  handleColumnClick() {}
+  handleColumnClick(column: number) {
+    this.dropToken(column);
+  }
+
+  dropToken(columnIndex: number) {
+    const token = document.createElement('asm-connect-four-token');
+    token.setAttribute('lifted', 'lifted');
+    const column = this.columns.item(columnIndex);
+    column.prepend(token);
+    requestAnimationFrame(() => {
+      token.removeAttribute('lifted');
+    });
+  }
 
   // prettier-ignore
   render() {
     return html`
-      ${Array.from({ length: this.columnCount }, (_, index) => html`
-        <div class="column" @click="${() => this.handleColumnClick()}">
-          ${Array.from({ length: Math.round(this.rowCount / (index + 1)) }, () => html`
-            <span></span>
-          `)}
-        </div>
-      `)}
+      <div class="board">
+        ${Array.from({ length: this.columnCount }, (_, index) => html`
+          <div class="column" @click="${() => this.handleColumnClick(index)}"></div>
+        `)}
+      </div>
     `;
   }
 }

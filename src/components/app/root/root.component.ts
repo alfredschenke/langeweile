@@ -1,5 +1,5 @@
 import { css, html, LitElement, unsafeCSS } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import { router } from '../../../';
@@ -12,8 +12,8 @@ export class Root extends LitElement {
     ${unsafeCSS(styles)}
   `;
 
-  @state()
-  private activeRoute!: string;
+  @property({ attribute: 'active-route', reflect: true, type: String })
+  activeRoute!: string;
 
   isActive(path: string): boolean {
     return router.urlForPath(path) === this.activeRoute;

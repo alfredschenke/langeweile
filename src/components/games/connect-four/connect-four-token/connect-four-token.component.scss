@@ -1,0 +1,21 @@
+:host {
+  position: relative;
+  display: block;
+  padding-top: 100%;
+  margin-bottom: 0;
+  width: 100%;
+
+  transition: 0.75s margin-bottom cubic-bezier(1, 1.635, 0, 0.675);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 20%;
+    border-radius: 50%;
+    background-color: var(--color-aquamarine);
+  }
+}
+
+:host([lifted]) {
+  margin-bottom: calc(var(---connect-four-row-count) * 100%);
+}

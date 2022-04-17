@@ -1,13 +1,14 @@
 :host {
   display: block;
-  transition: opacity .5s ease-in-out;
+  perspective: 1000px;
+
+  transition: opacity 0.5s ease-in-out;
   opacity: 1;
   cursor: pointer;
-  perspective: 1000px;
 }
 
 :host([solved]) {
-  opacity: .25;
+  opacity: 0.25;
 }
 
 figure {
@@ -29,7 +30,7 @@ img {
 .front,
 .back {
   backface-visibility: hidden;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
 }
 
 .front {

@@ -37,3 +37,12 @@ header {
     }
   }
 }
+
+main {
+  margin: 0;
+  transition: 0.5s margin ease-in-out;
+
+  :host([active-route$='/connect-four']) & {
+    margin: 0 10vw;
+  }
+}
