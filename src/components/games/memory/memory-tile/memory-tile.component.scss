@@ -12,9 +12,19 @@
 }
 
 figure {
+  display: flex;
+  flex-direction: row;
   margin: 0;
+
   transition: transform 1s;
   transform-style: preserve-3d;
+  white-space: nowrap;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    padding-top: calc(9 / 16 * 100%);
+  }
 
   :host(:not([covered])) & {
     transform: rotateY(180deg);
