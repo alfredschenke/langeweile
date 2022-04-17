@@ -4,13 +4,8 @@
   "description": "Alfreds games",
   "main": "dist/index.html",
   "scripts": {
-    "clean": "shx rm -rf dist bundle",
-    "prebuild": "run-p clean",
-    "prestart": "run-p clean",
-    "build": "rollup --config rollup.config.ts --configPlugin typescript",
-    "start:compile": "rollup --config rollup.config.ts --configPlugin typescript --watch",
-    "start:serve": "http-server ./dist --silent --cors -a localhost --port 3000",
-    "start": "run-p start:*"
+    "build": "rollup --config rollup.config.ts --configPlugin typescript --prod",
+    "start": "rollup --config rollup.config.ts --configPlugin typescript --watch"
   },
   "repository": {
     "type": "git",
@@ -35,19 +30,19 @@
     "@types/node": "16.11.7",
     "autoprefixer": "10.4.4",
     "fast-glob": "3.2.11",
-    "http-server": "14.1.0",
     "npm-run-all": "4.1.5",
     "postcss": "8.4.12",
     "prettier": "2.6.2",
     "prettier-plugin-html-template-literals": "1.0.5",
     "rollup": "2.70.1",
     "rollup-plugin-copy": "3.4.0",
+    "rollup-plugin-delete": "2.0.0",
     "rollup-plugin-minify-html-literals": "1.2.6",
     "rollup-plugin-sass": "1.2.12",
+    "rollup-plugin-serve": "1.1.0",
     "rollup-plugin-summary": "1.4.0",
     "rollup-plugin-terser": "7.0.2",
     "sass": "1.50.0",
-    "shx": "0.3.4",
     "ts-lit-plugin": "1.2.1",
     "tslib": "2.3.1",
     "typescript": "4.6.3"
