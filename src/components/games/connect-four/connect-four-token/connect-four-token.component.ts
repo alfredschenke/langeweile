@@ -1,6 +1,6 @@
 import { css, LitElement, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Player } from '../../../../types/player.types';
+import { Player } from '../../../../types/game.types';
 
 import styles from './connect-four-token.component.scss';
 
@@ -15,4 +15,7 @@ export class ConnectFourToken extends LitElement {
 
   @property({ reflect: true, type: Boolean })
   lifted = false;
+
+  @property({ reflect: true, type: Boolean })
+  translucent = false;
 }

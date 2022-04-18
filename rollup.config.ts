@@ -5,6 +5,7 @@ import autoprefixer from 'autoprefixer';
 
 import { defineConfig, Plugin } from 'rollup';
 
+import commonjs from '@rollup/plugin-commonjs';
 import html from '@rollup/plugin-html';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
@@ -60,6 +61,7 @@ export default defineConfig({
         await writeFile('dist/assets/images/memory.json', JSON.stringify(images));
       },
     } as Plugin,
+    commonjs(),
     resolve(),
     html({
       meta: [{ name: 'viewport', content: 'width=device-width, user-scalable=no' }],

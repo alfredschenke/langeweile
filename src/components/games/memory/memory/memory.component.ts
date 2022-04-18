@@ -3,16 +3,11 @@ import shuffle from 'lodash-es/shuffle';
 import { css, html, LitElement, PropertyValues, unsafeCSS } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 
+import { PlayState } from '../../../../types/game.types';
+import { wait } from '../../../../utils/async.utils';
 import '../memory-tile/memory-tile.component';
 
 import styles from './memory.component.scss';
-import { wait } from '../../../../utils/async.utils';
-
-enum PlayState {
-  Ready = 0,
-  Playing = 1,
-  Finished = 2,
-}
 
 @customElement('asm-memory')
 export class Memory extends LitElement {
@@ -53,22 +48,22 @@ export class Memory extends LitElement {
   isInteractive = false;
 
   @state()
-  images: string[] = [];
+  private images: string[] = [];
 
   @state()
-  revealedTiles: number[] = [];
+  private revealedTiles: number[] = [];
 
   @state()
-  solvedTiles: string[] = [];
+  private solvedTiles: string[] = [];
 
   @state()
-  challengedTiles: number[] = [];
+  private challengedTiles: number[] = [];
 
   @state()
-  challenges = 0;
+  private challenges = 0;
 
   @state()
-  playState: PlayState = PlayState.Ready;
+  private playState: PlayState = PlayState.Ready;
 
   protected updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('sourcesPath')) {

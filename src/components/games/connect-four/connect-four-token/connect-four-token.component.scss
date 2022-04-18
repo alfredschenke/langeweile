@@ -6,10 +6,12 @@
   position: relative;
   display: block;
   padding-top: 100%;
-  margin-bottom: 0;
   width: 100%;
 
-  transition: 0.5s margin-bottom cubic-bezier(0.6, 0.04, 0.98, 0.34);
+  opacity: 1;
+  margin-bottom: 0;
+
+  transition: margin-bottom 0.5s cubic-bezier(0.6, 0.04, 0.98, 0.34), opacity 0.5s ease-out;
 
   &::before {
     content: '';
@@ -30,4 +32,8 @@
 
 :host([lifted]) {
   margin-bottom: calc(var(---connect-four-row-count) * 100%);
+}
+
+:host([translucent]) {
+  opacity: 0.25;
 }

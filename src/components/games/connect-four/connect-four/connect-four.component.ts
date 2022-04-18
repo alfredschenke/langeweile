@@ -1,16 +1,16 @@
+import { Connect4AI, Difficulty } from 'connect4-ai';
 import { css, html, LitElement, PropertyValues, unsafeCSS } from 'lit';
-import { customElement, property, queryAll } from 'lit/decorators.js';
+import { customElement, property, queryAll, state } from 'lit/decorators.js';
 
-import type { Player } from '../../../../types/player.types';
 import type { ConnectFourToken } from '../connect-four-token/connect-four-token.component';
+import { Player, PlayState } from '../../../../types/game.types';
 
 import { wait } from '../../../../utils/async.utils';
-import { getElementIndex } from '../../../../utils/dom.utils';
-import { TokenGrid } from '../utils/token-grid.class';
 
 import '../connect-four-token/connect-four-token.component';
 
 import styles from './connect-four.component.scss';
+import { Solution } from 'connect4-ai';
 
 @customElement('asm-connect-four')
 export class ConnectFour extends LitElement {
@@ -18,11 +18,19 @@ export class ConnectFour extends LitElement {
     ${unsafeCSS(styles)}
   `;
 
+  private readonly game = new Connect4AI();
+
   @queryAll('.column')
   private readonly columns!: NodeListOf<HTMLDivElement>;
 
   @queryAll('asm-connect-four-token')
   private readonly tokens!: NodeListOf<ConnectFourToken>;
+
+  @state()
+  private playState: PlayState = PlayState.Ready;
+
+  @property({ reflect: true, type: String })
+  difficulty: Difficulty = 'easy';
 
   @property({ attribute: 'column-count', reflect: true, type: Number })
   columnCount = 7;
@@ -43,56 +51,70 @@ export class ConnectFour extends LitElement {
   }
 
   async handleColumnClick(column: number) {
+    // do not go on if non-interactive or ended
+    if (!this.isInteractive || this.playState > PlayState.Playing) {
+      return;
+    }
+
     // place token
     this.isInteractive = false;
-    this.dropToken(column, 'a');
+    this.playState = PlayState.Playing;
+    await this.dropToken(column, Player.A);
+    this.game.play(column);
 
-    // wait and simulate other player
-    await wait(500);
-    this.placeOtherPlayersToken();
-    this.isInteractive = true;
+    // check player a result
+    const gameStatus = this.game.gameStatus();
+    if (gameStatus.gameOver) {
+      this.finishGame(gameStatus.solution);
+      // TODO: WINNER! TADA!
+    } else {
+      // wait and simulate other player
+      await wait(500);
+      await this.dropToken(this.game.playAI(this.difficulty), Player.B);
+
+      // check player b result
+      const gameStatus = this.game.gameStatus();
+      if (gameStatus.gameOver) {
+        this.finishGame(gameStatus.solution);
+        // TODO: LOOSER! BOO!
+      } else {
+        this.isInteractive = true;
+      }
+    }
   }
 
-  dropToken(columnIndex: number, player: Player) {
-    // prepare a new token
-    const token = document.createElement('asm-connect-four-token');
-    token.setAttribute('lifted', 'lifted');
-    token.setAttribute('player', player);
+  async dropToken(columnIndex: number, player: Player): Promise<void> {
+    return new Promise<void>(resolve => {
+      // prepare a new token
+      const token = document.createElement('asm-connect-four-token');
+      token.setAttribute('lifted', 'lifted');
+      token.setAttribute('player', player);
 
-    // add token to correct column
-    const column = this.columns.item(columnIndex);
-    column.appendChild(token);
+      // add token to correct column
+      const column = this.columns.item(columnIndex);
+      column.appendChild(token);
 
-    requestAnimationFrame(() => {
-      // start animation
-      token.removeAttribute('lifted');
+      requestAnimationFrame(async () => {
+        // start animation
+        token.removeAttribute('lifted');
 
-      // read player tokens from current grid
-      const grid = this.getTokenGrid(player);
+        // TODO: replace with transitionend (once) listener
+        await wait(500);
 
-      // check for solutions
-      console.log(player, grid.isSolved());
+        // check if we have a result
+        resolve();
+      });
     });
+  }
+
+  finishGame(solution: Solution) {
+    this.playState = PlayState.Finished;
+    this.tokens.forEach(token => token.setAttribute('translucent', 'translucent'));
+    solution.forEach(({ column, spacesFromBottom }) => this.columns[column].children.item(spacesFromBottom)!.removeAttribute('translucent'));
   }
 
   getTokens(player: Player): ConnectFourToken[] {
     return [...this.tokens].filter(token => token.player === player);
-  }
-
-  // reads the tokens from the DOM of the given player
-  getTokenGrid(player: Player): TokenGrid {
-    return this.getTokens(player).reduce((grid, token) => {
-      const row = getElementIndex(token);
-      const column = getElementIndex(token.parentElement!);
-      return grid.addToken(token, row, column);
-    }, new TokenGrid());
-  }
-
-  // for the time being we'll randomly pick a column which has a token slot left
-  placeOtherPlayersToken() {
-    const columns = [...this.columns].filter(column => column.childElementCount < this.rowCount);
-    const column = getElementIndex(columns[Math.floor(Math.random() * columns.length)]);
-    this.dropToken(column, 'b');
   }
 
   // prettier-ignore
