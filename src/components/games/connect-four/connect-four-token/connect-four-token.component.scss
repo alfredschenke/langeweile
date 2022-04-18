@@ -1,19 +1,31 @@
 :host {
+  ---connect-four-token-color: var(--connect-four-token-color);
+}
+
+:host {
   position: relative;
   display: block;
   padding-top: 100%;
   margin-bottom: 0;
   width: 100%;
 
-  transition: 0.75s margin-bottom cubic-bezier(1, 1.635, 0, 0.675);
+  transition: 0.5s margin-bottom cubic-bezier(0.6, 0.04, 0.98, 0.34);
 
   &::before {
     content: '';
     position: absolute;
     inset: 20%;
     border-radius: 50%;
-    background-color: var(--color-aquamarine);
+    background-color: var(---connect-four-token-color);
   }
+}
+
+:host([player='a']) {
+  ---connect-four-token-color: var(--color-aquamarine);
+}
+
+:host([player='b']) {
+  ---connect-four-token-color: var(--color-hotpink);
 }
 
 :host([lifted]) {
