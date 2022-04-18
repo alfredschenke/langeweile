@@ -6,6 +6,7 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 import '../memory-tile/memory-tile.component';
 
 import styles from './memory.component.scss';
+import { wait } from '../../../../utils/async.utils';
 
 enum PlayState {
   Ready = 0,
@@ -48,7 +49,7 @@ export class Memory extends LitElement {
   @property({ attribute: 'wait-on-success', reflect: true, type: Number })
   waitOnSuccess = 500;
 
-  @state()
+  @property({ attribute: 'interactive', reflect: true, type: Boolean })
   isInteractive = false;
 
   @state()
@@ -115,12 +116,12 @@ export class Memory extends LitElement {
         ++this.challenges;
         // store successfull result and wait to allow the player to recognize
         if (this.images[first] === this.images[second]) {
-          await new Promise(resolve => window.setTimeout(resolve, this.waitOnSuccess));
+          await wait(this.waitOnSuccess);
           this.solvedTiles = [...this.solvedTiles, image];
         }
         // roll back if failed and wait to allow the player to check
         else {
-          await new Promise(resolve => window.setTimeout(resolve, this.waitOnFail));
+          await wait(this.waitOnFail);
           this.revealedTiles = this.revealedTiles.filter(tile => !this.challengedTiles.includes(tile));
         }
         // reset challenge

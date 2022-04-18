@@ -2,16 +2,14 @@ import { css, html, LitElement, PropertyValues, unsafeCSS } from 'lit';
 import { customElement, property, queryAll } from 'lit/decorators.js';
 import { Player } from '../../../../types/player.types';
 import { getElementIndex } from '../../../../utils/dom.utils';
-import type { ConnectFourToken } from '../connect-four-token/connect-four-token.component';
 
+import { TokenGrid } from '../utils/token-grid.class';
+import type { ConnectFourToken } from '../connect-four-token/connect-four-token.component';
 import '../connect-four-token/connect-four-token.component';
 
 import styles from './connect-four.component.scss';
+import { wait } from '../../../../utils/async.utils';
 
-type TokenGrid = {
-  grid: { [row: number]: { [column: number]: ConnectFourToken } };
-  tokens: { column: number; row: number; token: ConnectFourToken }[];
-};
 let tempPlayer: Player = 'a';
 
 @customElement('asm-connect-four')
@@ -32,6 +30,9 @@ export class ConnectFour extends LitElement {
   @property({ attribute: 'row-count', reflect: true, type: Number })
   rowCount = 6;
 
+  @property({ attribute: 'interactive', reflect: true, type: Boolean })
+  isInteractive = true;
+
   protected updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('columnCount')) {
       this.style.setProperty('--connect-four-column-count', `${this.columnCount}`);
@@ -41,8 +42,13 @@ export class ConnectFour extends LitElement {
     }
   }
 
-  handleColumnClick(column: number) {
+  async handleColumnClick(column: number) {
+    // place token
+    this.isInteractive = false;
     this.dropToken(column, tempPlayer);
+
+    // wait and simulate other player
+    await wait(500);
     tempPlayer = tempPlayer === 'a' ? 'b' : 'a';
   }
 
@@ -64,7 +70,7 @@ export class ConnectFour extends LitElement {
       const grid = this.getTokenGrid(player);
 
       // check for solutions
-      console.log(player, this.challengeGrid(grid));
+      console.log(player, grid.isSolved());
     });
   }
 
@@ -74,36 +80,11 @@ export class ConnectFour extends LitElement {
 
   // reads the tokens from the DOM of the given player
   getTokenGrid(player: Player): TokenGrid {
-    return this.getTokens(player).reduce(
-      ({ grid, tokens }, token) => {
-        const row = getElementIndex(token);
-        const column = getElementIndex(token.parentElement!);
-        return {
-          grid: { ...grid, [row]: { ...grid[row], [column]: token } },
-          tokens: [...tokens, { column, row, token }],
-        };
-      },
-      { grid: {}, tokens: [] } as TokenGrid,
-    );
-  }
-
-  // search given grid for solutions
-  challengeGrid({ grid, tokens }: TokenGrid): boolean {
-    // walk each token
-    return tokens.some(({ column, row }) => {
-      // check horizontal
-      const matchesHorizontal = (grid[row][column + 1] && grid[row][column + 2] && grid[row][column + 3]) !== undefined;
-      // check vertical
-      const matchesVertical = (grid[row + 1] && grid[row + 2] && grid[row + 3]) !== undefined;
-      // check diagonal up
-      const matchesDiagonalUp =
-        (grid[row + 1] && grid[row + 2] && grid[row + 3] && grid[row + 1][column + 1] && grid[row + 2][column + 2] && grid[row + 3][column + 3]) !== undefined;
-      // check diagonal down
-      const matchesDiagonalDown =
-        (grid[row - 1] && grid[row - 2] && grid[row - 3] && grid[row - 1][column - 1] && grid[row - 2][column - 2] && grid[row - 3][column - 3]) !== undefined;
-      // check all matches
-      return matchesHorizontal || matchesVertical || matchesDiagonalUp || matchesDiagonalDown;
-    });
+    return this.getTokens(player).reduce((grid, token) => {
+      const row = getElementIndex(token);
+      const column = getElementIndex(token.parentElement!);
+      return grid.addToken(token, row, column);
+    }, new TokenGrid());
   }
 
   // prettier-ignore
