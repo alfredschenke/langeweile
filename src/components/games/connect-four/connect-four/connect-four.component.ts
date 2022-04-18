@@ -1,16 +1,16 @@
 import { css, html, LitElement, PropertyValues, unsafeCSS } from 'lit';
 import { customElement, property, queryAll } from 'lit/decorators.js';
-import { Player } from '../../../../types/player.types';
-import { getElementIndex } from '../../../../utils/dom.utils';
 
-import { TokenGrid } from '../utils/token-grid.class';
+import type { Player } from '../../../../types/player.types';
 import type { ConnectFourToken } from '../connect-four-token/connect-four-token.component';
+
+import { wait } from '../../../../utils/async.utils';
+import { getElementIndex } from '../../../../utils/dom.utils';
+import { TokenGrid } from '../utils/token-grid.class';
+
 import '../connect-four-token/connect-four-token.component';
 
 import styles from './connect-four.component.scss';
-import { wait } from '../../../../utils/async.utils';
-
-let tempPlayer: Player = 'a';
 
 @customElement('asm-connect-four')
 export class ConnectFour extends LitElement {
@@ -45,11 +45,12 @@ export class ConnectFour extends LitElement {
   async handleColumnClick(column: number) {
     // place token
     this.isInteractive = false;
-    this.dropToken(column, tempPlayer);
+    this.dropToken(column, 'a');
 
     // wait and simulate other player
     await wait(500);
-    tempPlayer = tempPlayer === 'a' ? 'b' : 'a';
+    this.placeOtherPlayersToken();
+    this.isInteractive = true;
   }
 
   dropToken(columnIndex: number, player: Player) {
@@ -85,6 +86,13 @@ export class ConnectFour extends LitElement {
       const column = getElementIndex(token.parentElement!);
       return grid.addToken(token, row, column);
     }, new TokenGrid());
+  }
+
+  // for the time being we'll randomly pick a column which has a token slot left
+  placeOtherPlayersToken() {
+    const columns = [...this.columns].filter(column => column.childElementCount < this.rowCount);
+    const column = getElementIndex(columns[Math.floor(Math.random() * columns.length)]);
+    this.dropToken(column, 'b');
   }
 
   // prettier-ignore
