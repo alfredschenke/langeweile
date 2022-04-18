@@ -64,7 +64,7 @@ export default defineConfig({
     html({
       meta: [{ name: 'viewport', content: 'width=device-width, user-scalable=no' }],
       publicPath: '/',
-      title: 'Alfreds Memory',
+      title: 'Alfreds Langeweile',
     }),
     sass({ processor: css => postcss([autoprefixer]).process(css, { from: undefined }) }),
     typescript(),

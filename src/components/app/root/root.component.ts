@@ -2,7 +2,7 @@ import { css, html, LitElement, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { router } from '../../../';
+import { router } from '../../..';
 
 import styles from './root.component.scss';
 
