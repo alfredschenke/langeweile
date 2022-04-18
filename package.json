@@ -20,6 +20,9 @@
     "url": "https://github.com/alfredschenke/memory/issues"
   },
   "homepage": "https://github.com/alfredschenke/memory#readme",
+  "vaadin": {
+    "disableUsageStatistics": true
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "21.0.3",
     "@rollup/plugin-html": "0.2.4",
