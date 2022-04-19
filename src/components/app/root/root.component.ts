@@ -1,8 +1,8 @@
 import { css, html, LitElement, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
 
 import { router } from '../../..';
+import '../header/header.component';
 
 import styles from './root.component.scss';
 
@@ -12,12 +12,8 @@ export class Root extends LitElement {
     ${unsafeCSS(styles)}
   `;
 
-  @property({ attribute: 'active-route', reflect: true, type: String })
+@property({ attribute: 'active-route', reflect: true, type: String })
   activeRoute!: string;
-
-  isActive(path: string): boolean {
-    return router.urlForPath(path) === this.activeRoute;
-  }
 
   handleSlotChange() {
     this.activeRoute = router.location.getUrl();
@@ -26,13 +22,7 @@ export class Root extends LitElement {
   // prettier-ignore
   render() {
     return html`
-      <header>
-        <h1>Alfreds</h1>
-        <nav>
-          <a class="${classMap({ active: this.isActive('/games/memory') })}" href="/games/memory">Memory</a>
-          <a class="${classMap({ active: this.isActive('/games/connect-four') })}" href="/games/connect-four">Vier gewinnt</a>
-        </nav>
-      </header>
+      <asm-header active-route="${this.activeRoute}"></asm-header>
       <main>
         <slot @slotchange="${() => this.handleSlotChange()}"></slot>
       </main>
