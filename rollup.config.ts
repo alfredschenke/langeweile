@@ -2,6 +2,7 @@ import glob from 'fast-glob';
 import { writeFile } from 'fs/promises';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
+import { generateImages } from 'pwa-asset-generator';
 
 import { defineConfig, Plugin } from 'rollup';
 
@@ -44,6 +45,10 @@ export default defineConfig({
           dest: 'dist/',
         },
         {
+          src: 'src/manifest.json',
+          dest: 'dist/',
+        },
+        {
           src: 'src/assets/*',
           dest: 'dist/assets',
         },
@@ -53,6 +58,17 @@ export default defineConfig({
         },
       ],
     }),
+    {
+      name: 'generate-pwa-icon',
+      buildEnd: async () => {
+        generateImages('src/assets/icons/icon.png', 'dist/assets/icons', {
+          index: 'dist/index.html',
+          background: '#7fffd4',
+          singleQuotes: true,
+          log: false,
+        });
+      },
+    },
     {
       name: 'store-image-list',
       generateBundle: async () => {

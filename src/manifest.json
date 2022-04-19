@@ -1,0 +1,9 @@
+{
+  "theme_color": "#7fffd4",
+  "background_color": "#7fffd4",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Alfreds Langeweile",
+  "short_name": "langeweile"
+}
