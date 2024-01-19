@@ -11,6 +11,14 @@ injectGlobalStyles('asm.globals', styles as string);
 
 export const GAMES = [
   {
+    path: '/games/math-quests',
+    component: 'asm-math-quests',
+    name: 'Mathe',
+    action: async () => {
+      await import('./components/games/math-quests/math-quests/math-quests.component.js');
+    },
+  },
+  {
     path: '/games/memory',
     component: 'asm-memory',
     name: 'Memory',

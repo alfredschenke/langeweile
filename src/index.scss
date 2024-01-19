@@ -1,7 +1,10 @@
 @use '../node_modules/@fontsource/roboto-condensed/scss/mixins' as RobotoCondensed;
 
 @include RobotoCondensed.faces(
-  $weights: (300, 400),
+  $weights: (
+    300,
+    400,
+  ),
   $directory: '../node_modules/@fontsource/roboto-condensed/files'
 );
 
@@ -13,7 +16,7 @@
   --color-aquamarine: #7fffd4;
   --color-hotpink: #ff7f9b;
 
-  --border-radius: .5vw;
+  --border-radius: 0.5vw;
 }
 
 html {
@@ -21,12 +24,18 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: 300;
-  
+
   background: var(--color-grey-darkest);
   color: var(--color-grey-light);
 
-  margin: 30px 50px;
+  margin: 0;
   user-select: none;
+  overflow: hidden;
 }

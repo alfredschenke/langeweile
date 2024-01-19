@@ -1,9 +1,16 @@
 :host {
   display: flex;
   flex-direction: column;
+
+  flex: 1 0 auto;
+  margin: 30px 50px;
 }
 
 main {
+  display: flex;
+  flex-direction: column;
+
+  flex: 1 0 auto;
   margin: 0;
   transition: 0.5s margin ease-in-out;
 
