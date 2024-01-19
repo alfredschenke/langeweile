@@ -1,8 +1,9 @@
+import '../header/header.component.js';
+
 import { css, html, LitElement, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import { router } from '../../..';
-import '../header/header.component';
+import { router } from '../../../index.js';
 
 import styles from './root.component.scss';
 
@@ -12,7 +13,7 @@ export class Root extends LitElement {
     ${unsafeCSS(styles)}
   `;
 
-@property({ attribute: 'active-route', reflect: true, type: String })
+  @property({ attribute: 'active-route', reflect: true, type: String })
   activeRoute!: string;
 
   handleSlotChange() {

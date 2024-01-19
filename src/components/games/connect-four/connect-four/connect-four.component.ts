@@ -1,16 +1,15 @@
-import { Connect4AI, Difficulty } from 'connect4-ai';
+/* eslint-disable lit-a11y/click-events-have-key-events */
+import '../connect-four-token/connect-four-token.component.js';
+
+import { Connect4AI, Difficulty, Solution } from 'connect4-ai';
 import { css, html, LitElement, PropertyValues, unsafeCSS } from 'lit';
 import { customElement, property, queryAll, state } from 'lit/decorators.js';
 
+import { Player, PlayState } from '../../../../types/game.types.js';
+import { wait } from '../../../../utils/async.utils.js';
 import type { ConnectFourToken } from '../connect-four-token/connect-four-token.component';
-import { Player, PlayState } from '../../../../types/game.types';
-
-import { wait } from '../../../../utils/async.utils';
-
-import '../connect-four-token/connect-four-token.component';
 
 import styles from './connect-four.component.scss';
-import { Solution } from 'connect4-ai';
 
 @customElement('asm-connect-four')
 export class ConnectFour extends LitElement {
@@ -63,9 +62,9 @@ export class ConnectFour extends LitElement {
     this.game.play(column);
 
     // check player a result
-    const gameStatus = this.game.gameStatus();
-    if (gameStatus.gameOver) {
-      this.finishGame(gameStatus.solution);
+    const gameStatusA = this.game.gameStatus();
+    if (gameStatusA.gameOver) {
+      this.finishGame(gameStatusA.solution);
       // TODO: WINNER! TADA!
     } else {
       // wait and simulate other player
@@ -73,9 +72,9 @@ export class ConnectFour extends LitElement {
       await this.dropToken(this.game.playAI(this.difficulty), Player.B);
 
       // check player b result
-      const gameStatus = this.game.gameStatus();
-      if (gameStatus.gameOver) {
-        this.finishGame(gameStatus.solution);
+      const gameStatusB = this.game.gameStatus();
+      if (gameStatusB.gameOver) {
+        this.finishGame(gameStatusB.solution);
         // TODO: LOOSER! BOO!
       } else {
         this.isInteractive = true;
@@ -84,7 +83,7 @@ export class ConnectFour extends LitElement {
   }
 
   async dropToken(columnIndex: number, player: Player): Promise<void> {
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       // prepare a new token
       const token = document.createElement('asm-connect-four-token');
       token.setAttribute('lifted', 'lifted');
@@ -109,12 +108,14 @@ export class ConnectFour extends LitElement {
 
   finishGame(solution: Solution) {
     this.playState = PlayState.Finished;
-    this.tokens.forEach(token => token.setAttribute('translucent', 'translucent'));
-    solution.forEach(({ column, spacesFromBottom }) => this.columns[column].children.item(spacesFromBottom)!.removeAttribute('translucent'));
+    this.tokens.forEach((token) => token.setAttribute('translucent', 'translucent'));
+    solution.forEach(({ column, spacesFromBottom }) =>
+      this.columns[column].children.item(spacesFromBottom)!.removeAttribute('translucent'),
+    );
   }
 
   getTokens(player: Player): ConnectFourToken[] {
-    return [...this.tokens].filter(token => token.player === player);
+    return [...this.tokens].filter((token) => token.player === player);
   }
 
   // prettier-ignore

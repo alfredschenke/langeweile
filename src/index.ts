@@ -1,14 +1,35 @@
-import { Route, Router } from '@vaadin/router';
-import { injectGlobalStyles } from './utils/style.utils';
+import './components/app/root/root.component.js';
 
-import './components/app/root/root.component';
+import { Route, Router } from '@vaadin/router';
+
+import { injectGlobalStyles } from './utils/style.utils.js';
+
 import styles from './index.scss';
 
 // inject global style
 injectGlobalStyles('asm.globals', styles as string);
 
+export const GAMES = [
+  {
+    path: '/games/memory',
+    component: 'asm-memory',
+    name: 'Memory',
+    action: async () => {
+      await import('./components/games/memory/memory/memory.component.js');
+    },
+  },
+  {
+    path: '/games/connect-four',
+    component: 'asm-connect-four',
+    name: 'Vier gewinnt',
+    action: async () => {
+      await import('./components/games/connect-four/connect-four/connect-four.component.js');
+    },
+  },
+] satisfies Route[];
+
 // define routes
-const routes: Route[] = [
+const ROUTES = [
   {
     path: '/',
     component: 'asm-root',
@@ -17,26 +38,13 @@ const routes: Route[] = [
         path: '/',
         redirect: '/games/memory',
       },
-      {
-        path: '/games/memory',
-        component: 'asm-memory',
-        action: async () => {
-          await import('./components/games/memory/memory/memory.component');
-        },
-      },
-      {
-        path: '/games/connect-four',
-        component: 'asm-connect-four',
-        action: async () => {
-          await import('./components/games/connect-four/connect-four/connect-four.component');
-        },
-      },
+      ...GAMES,
     ],
   },
-];
+] satisfies Route[];
 
-// intialize
+// initialize
 // https://www.thisdot.co/blog/routing-management-with-litelement
 // https://github.com/vaadin/router/blob/master/README.md
 export const router = new Router(document.body);
-router.setRoutes(routes);
+router.setRoutes(ROUTES);

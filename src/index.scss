@@ -1,17 +1,8 @@
-@use '~@fontsource/roboto-condensed/scss/mixins' as RobotoCondensed;
+@use '../node_modules/@fontsource/roboto-condensed/scss/mixins' as RobotoCondensed;
 
-// prettier-ignore
-@include RobotoCondensed.fontFace(
-  $weight: 300,
-  $display: fallback,
-  $fontDir: '/assets/fonts/roboto-condensed'
-);
-
-// prettier-ignore
-@include RobotoCondensed.fontFace(
-  $weight: 400,
-  $display: fallback,
-  $fontDir: '/assets/fonts/roboto-condensed'
+@include RobotoCondensed.faces(
+  $weights: (300, 400),
+  $directory: '../node_modules/@fontsource/roboto-condensed/files'
 );
 
 :root {

@@ -1,2 +1,9 @@
-dist/
-node_modules/
+.idea
+.vscode/*
+!.vscode/settings.json
+.DS_Store
+.pnpm-debug.log
+/*.tgz
+
+/node_modules
+/dist

@@ -1,8 +1,5 @@
 /**
  * Injects given style declarations globally
- * @param id 
- * @param styles 
- * @returns HTMLStyleElement
  */
 export function injectGlobalStyles(id: string, styles: string): HTMLStyleElement {
   // already exists

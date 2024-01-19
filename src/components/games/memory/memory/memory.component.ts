@@ -1,11 +1,12 @@
+import '../memory-tile/memory-tile.component.js';
+
 import confetti from 'canvas-confetti';
-import shuffle from 'lodash-es/shuffle';
 import { css, html, LitElement, PropertyValues, unsafeCSS } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
+import shuffle from 'lodash-es/shuffle';
 
-import { PlayState } from '../../../../types/game.types';
-import { wait } from '../../../../utils/async.utils';
-import '../memory-tile/memory-tile.component';
+import { PlayState } from '../../../../types/game.types.js';
+import { wait } from '../../../../utils/async.utils.js';
 
 import styles from './memory.component.scss';
 
@@ -105,10 +106,11 @@ export class Memory extends LitElement {
         }
 
       // match cards if enough revealed
-      case 2:
+      // eslint-disable-next-line no-fallthrough
+      case 2: {
         // pick challenged ids and increase count
         const [first, second] = this.challengedTiles;
-        ++this.challenges;
+        this.challenges += 1;
         // store successfull result and wait to allow the player to recognize
         if (this.images[first] === this.images[second]) {
           await wait(this.waitOnSuccess);
@@ -117,13 +119,18 @@ export class Memory extends LitElement {
         // roll back if failed and wait to allow the player to check
         else {
           await wait(this.waitOnFail);
-          this.revealedTiles = this.revealedTiles.filter(tile => !this.challengedTiles.includes(tile));
+          this.revealedTiles = this.revealedTiles.filter((tile) => !this.challengedTiles.includes(tile));
         }
         // reset challenge
         this.challengedTiles = [];
         // check play state
         this.checkPlayState();
         break;
+      }
+
+      // should not happen
+      default:
+        throw new Error(`Unexpected challenge state: ${this.challengedTiles.length}`);
     }
   }
 
@@ -168,7 +175,7 @@ export class Memory extends LitElement {
 
   private async handleReloadClick() {
     this.resetGame();
-    await new Promise(resolve => window.setTimeout(resolve, 500));
+    await wait(500);
     this.loadImages(this.sourcesPath);
   }
 
@@ -188,7 +195,13 @@ export class Memory extends LitElement {
       </div>
       <div class="info">Züge: <strong>${this.challenges}</strong></div>
       <canvas></canvas>
-      <button class="reload" ?hidden="${this.playState < PlayState.Finished}" @click="${() => this.handleReloadClick()}">&#8635;</button>
+      <button
+        class="reload"
+        ?hidden="${this.playState < PlayState.Finished}"
+        @click="${() => this.handleReloadClick()}"
+      >
+        &#8635;
+      </button>
     `;
   }
 }

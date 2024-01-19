@@ -21,7 +21,7 @@ export class MemoryTile extends LitElement {
   render() {
     return html`
       <figure>
-        <img class="front" src="${this.src}" />
+        <img class="front" src="${this.src}" alt="" />
         <div class="back"></div>
       </figure>
     `;

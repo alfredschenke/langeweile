@@ -1,6 +1,7 @@
 import { css, LitElement, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Player } from '../../../../types/game.types';
+
+import { Player } from '../../../../types/game.types.js';
 
 import styles from './connect-four-token.component.scss';
 

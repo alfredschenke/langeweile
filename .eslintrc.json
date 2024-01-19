@@ -1,0 +1,84 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "sourceType": "module"
+  },
+  "overrides": [
+    {
+      "files": ["*.html", "*.json"],
+      "parser": "espree"
+    }
+  ],
+  "extends": [
+    "@open-wc",
+    "prettier",
+    "plugin:prettier/recommended",
+    "plugin:json/recommended",
+    "plugin:lit/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "eslint-plugin-tsdoc",
+    "file-extension-in-import-ts",
+    "lit-a11y",
+    "simple-import-sort",
+    "import",
+    "unused-imports"
+  ],
+  "rules": {
+    "no-multiple-empty-lines": "error",
+    "no-unused-vars": "off",
+    "tsdoc/syntax": "warn",
+
+    "file-extension-in-import-ts/file-extension-in-import-ts": "error",
+
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "args": "after-used",
+        "argsIgnorePattern": "^_",
+        "vars": "all",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+
+    "simple-import-sort/exports": "error",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          ["^\\u0000"],
+          ["^node:"],
+          ["^@?\\w"],
+          ["^"],
+          ["^\\."],
+          ["^.+\\.s?(png|jpg|jpeg|svg)$"],
+          ["^.+\\.s?(css|scss)$"],
+          ["^.+\\.s?json$"]
+        ]
+      }
+    ],
+
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+    "import/extensions": "off",
+    "import/order": "off",
+    "import/no-extraneous-dependencies": [
+      "warn",
+      {
+        "devDependencies": false
+      }
+    ],
+    "import/no-unresolved": ["error", { "ignore": ["\\.js$"] }],
+
+    "lit/no-classfield-shadowing": "off"
+  }
+}
