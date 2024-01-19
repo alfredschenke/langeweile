@@ -27,7 +27,7 @@ export class MathQuests extends LitElement {
   private interactive = true;
 
   @state()
-  private questCount = 0;
+  private questCount = 1;
 
   @state()
   private correctQuests = 0;
