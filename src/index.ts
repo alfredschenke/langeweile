@@ -44,7 +44,7 @@ const ROUTES = [
     children: [
       {
         path: '/',
-        redirect: '/games/memory',
+        redirect: GAMES[0].path,
       },
       ...GAMES,
     ],
