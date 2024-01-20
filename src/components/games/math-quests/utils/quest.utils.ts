@@ -47,6 +47,7 @@ export type ChainedQuestState = {
 };
 
 export type QuestOptions = {
+  alternatives: number;
   limitOperators: OperatorLimit;
   negativeResults: boolean;
   operatorValues: {
@@ -82,21 +83,46 @@ export function getRandomOperator(limitOperators: OperatorLimit): Operator {
   };
 }
 
-export function getRandomValue(from = Infinity, to = Infinity, exclude: number[] = []): number {
+export function getRandomValue(from = -Infinity, to = Infinity, exclude: number[] = []): number {
   const value = Math.floor(Math.random() * (to - from + 1) + from);
   return exclude.includes(value) ? getRandomValue(from, to, exclude) : value;
 }
 
 export function getQuestOptions({
+  alternatives = 2,
   limitOperators = ['all'],
   negativeResults = false,
   operatorValues = { add: [1, 10], subtract: [1, 10], multiply: [1, 10], divide: [1, 10] },
 }: DeepPartial<QuestOptions> = {}): QuestOptions {
-  return { limitOperators, negativeResults, operatorValues } as QuestOptions;
+  return { alternatives, limitOperators, negativeResults, operatorValues } as QuestOptions;
+}
+
+export function generateAlternativeSolution(
+  operator: Operator,
+  options: QuestOptions,
+  exclude: number[] = [],
+): number {
+  const [valuesFrom, valuesTo] = options.operatorValues[operator.type];
+  const left = getRandomValue(valuesFrom, valuesTo);
+  const right = getRandomValue(valuesFrom, valuesTo);
+  const solution = calculateSolution(operator, left, right);
+
+  // prevent negative results if configured
+  if (!options.negativeResults && solution < 0) {
+    return generateAlternativeSolution(operator, options, exclude);
+  }
+
+  // prevent duplicate solutions
+  if (exclude.includes(solution)) {
+    return generateAlternativeSolution(operator, options, exclude);
+  }
+
+  return solution;
 }
 
 export function generateStandaloneQuest(options: DeepPartial<QuestOptions> = {}): StandaloneQuest {
-  const { limitOperators, negativeResults, operatorValues } = getQuestOptions(options);
+  const optionsWithDefaults = getQuestOptions(options);
+  const { alternatives, limitOperators, negativeResults, operatorValues } = optionsWithDefaults;
   const operator = getRandomOperator(limitOperators);
   const [valuesFrom, valuesTo] = operatorValues[operator.type];
   const left = getRandomValue(valuesFrom, valuesTo);
@@ -108,10 +134,14 @@ export function generateStandaloneQuest(options: DeepPartial<QuestOptions> = {})
     return generateStandaloneQuest(options);
   }
 
-  // generate multiple choices
-  const alternativeSolutionA = getRandomValue(valuesFrom, valuesTo, [solution]);
-  const alternativeSolutionB = getRandomValue(valuesFrom, valuesTo, [solution, alternativeSolutionA]);
-  const possibleSolutions = shuffle([solution, alternativeSolutionA, alternativeSolutionB]);
+  // generate alternative solutions
+  const alternativeSolutions = [];
+  for (let i = 0; i < alternatives; i += 1) {
+    const alternativeSolution = generateAlternativeSolution(operator, optionsWithDefaults, [solution]);
+    alternativeSolutions.push(alternativeSolution);
+  }
+
+  const possibleSolutions = shuffle([solution, ...alternativeSolutions]);
 
   return { operator, left, right, solution, possibleSolutions };
 }

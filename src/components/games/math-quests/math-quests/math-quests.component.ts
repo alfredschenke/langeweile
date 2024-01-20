@@ -56,6 +56,7 @@ export class MathQuests extends LitElement {
   // eslint-disable-next-line class-methods-use-this
   #generateQuest(): StandaloneQuest {
     return generateStandaloneQuest({
+      alternatives: 2,
       limitOperators: ['add', 'subtract', 'multiply'],
       negativeResults: false,
       operatorValues: { add: [1, 20], subtract: [1, 20], multiply: [1, 10] },
