@@ -91,11 +91,13 @@ ul {
 }
 
 canvas {
-  position: absolute;
+  position: fixed;
   inset: 0;
   pointer-events: none;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  width: 100vw;
+  width: 100svw;
 }
 
 #info {
