@@ -90,16 +90,6 @@ ul {
   }
 }
 
-canvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  height: 100vh;
-  height: 100svh;
-  width: 100vw;
-  width: 100svw;
-}
-
 #info {
   position: absolute;
   inset: auto 30px 30px auto;

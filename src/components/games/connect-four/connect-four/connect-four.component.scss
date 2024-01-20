@@ -52,3 +52,16 @@
     }
   }
 }
+
+#reload {
+  position: absolute;
+  inset: 50% auto auto 50%;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  color: var(--color-typography);
+  font-size: 18em;
+  transform: translate(-50%, -50%) rotate(45deg);
+}

@@ -20,15 +20,7 @@ strong {
   text-transform: uppercase;
 }
 
-canvas {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  height: 100%;
-  width: 100%;
-}
-
-.reload {
+#reload {
   position: absolute;
   inset: 50% auto auto 50%;
 

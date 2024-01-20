@@ -1,27 +1,24 @@
-import confetti from 'canvas-confetti';
-import { css, html, LitElement, unsafeCSS } from 'lit';
-import { customElement, property, query, queryAll, state } from 'lit/decorators.js';
+import { css, html, unsafeCSS } from 'lit';
+import { customElement, property, queryAll, state } from 'lit/decorators.js';
 import { keyed } from 'lit/directives/keyed.js';
 import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
 
 import { wait } from '../../../../utils/async.utils.js';
+import { GenericGame } from '../../../../utils/generic-game.class.js';
 import { END_MODE, QUEST_MODE } from '../utils/game.utils.js';
 import { generateStandaloneQuest, StandaloneQuest } from '../utils/quest.utils.js';
 
 import styles from './math-quests.component.scss';
 
 @customElement('asm-math-quests')
-export class MathQuests extends LitElement {
+export class MathQuests extends GenericGame {
   static readonly styles = css`
     ${unsafeCSS(styles)}
   `;
 
   @queryAll('button[data-choice]')
   private readonly choiceRefs!: NodeListOf<HTMLButtonElement>;
-
-  @query('canvas')
-  private readonly canvasRef!: HTMLCanvasElement;
 
   @state()
   private interactive = true;
@@ -88,17 +85,6 @@ export class MathQuests extends LitElement {
     this.interactive = true;
   }
 
-  partyHard() {
-    confetti.create(this.canvasRef, {
-      resize: true,
-      useWorker: true,
-    })({
-      particleCount: 100,
-      spread: 160,
-      startVelocity: 30,
-    });
-  }
-
   render() {
     return html`
       <figure id="left">${this.currentQuest?.left}</figure>
@@ -129,8 +115,6 @@ export class MathQuests extends LitElement {
         this.questCount > 0,
         () => html`<div id="info"><strong>${this.correctQuests}</strong> / ${this.questCount}</div>`,
       )}
-
-      <canvas></canvas>
     `;
   }
 }

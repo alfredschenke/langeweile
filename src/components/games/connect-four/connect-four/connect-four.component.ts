@@ -2,17 +2,18 @@
 import '../connect-four-token/connect-four-token.component.js';
 
 import { Connect4AI, Difficulty, Solution } from 'connect4-ai';
-import { css, html, LitElement, PropertyValues, unsafeCSS } from 'lit';
-import { customElement, property, queryAll, state } from 'lit/decorators.js';
+import { css, html, PropertyValues, unsafeCSS } from 'lit';
+import { customElement, eventOptions, property, queryAll, state } from 'lit/decorators.js';
 
 import { Player, PlayState } from '../../../../types/game.types.js';
 import { wait } from '../../../../utils/async.utils.js';
+import { GenericGame } from '../../../../utils/generic-game.class.js';
 import type { ConnectFourToken } from '../connect-four-token/connect-four-token.component';
 
 import styles from './connect-four.component.scss';
 
 @customElement('asm-connect-four')
-export class ConnectFour extends LitElement {
+export class ConnectFour extends GenericGame {
   static readonly styles = css`
     ${unsafeCSS(styles)}
   `;
@@ -65,7 +66,7 @@ export class ConnectFour extends LitElement {
     const gameStatusA = this.game.gameStatus();
     if (gameStatusA.gameOver) {
       this.finishGame(gameStatusA.solution);
-      // TODO: WINNER! TADA!
+      this.partyHard();
     } else {
       // wait and simulate other player
       await wait(500);
@@ -118,6 +119,14 @@ export class ConnectFour extends LitElement {
     return [...this.tokens].filter((token) => token.player === player);
   }
 
+  @eventOptions({ passive: true })
+  private async handleReloadClick() {
+    this.game.reset();
+    this.tokens.forEach((token) => token.remove());
+    this.playState = PlayState.Ready;
+    this.isInteractive = true;
+  }
+
   // prettier-ignore
   render() {
     return html`
@@ -126,6 +135,14 @@ export class ConnectFour extends LitElement {
           <div class="column" @click="${() => this.handleColumnClick(index)}"></div>
         `)}
       </div>
+
+      <button
+        id="reload"
+        ?hidden="${this.playState < PlayState.Finished}"
+        @click="${() => this.handleReloadClick()}"
+      >
+        &#8635;
+      </button>
     `;
   }
 }

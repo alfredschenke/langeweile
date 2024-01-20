@@ -1,23 +1,20 @@
 import '../memory-tile/memory-tile.component.js';
 
-import confetti from 'canvas-confetti';
-import { css, html, LitElement, PropertyValues, unsafeCSS } from 'lit';
-import { customElement, property, query, state } from 'lit/decorators.js';
+import { css, html, PropertyValues, unsafeCSS } from 'lit';
+import { customElement, eventOptions, property, state } from 'lit/decorators.js';
 import shuffle from 'lodash-es/shuffle';
 
 import { PlayState } from '../../../../types/game.types.js';
 import { wait } from '../../../../utils/async.utils.js';
+import { GenericGame } from '../../../../utils/generic-game.class.js';
 
 import styles from './memory.component.scss';
 
 @customElement('asm-memory')
-export class Memory extends LitElement {
+export class Memory extends GenericGame {
   static readonly styles = css`
     ${unsafeCSS(styles)}
   `;
-
-  @query('canvas')
-  private readonly canvasRef!: HTMLCanvasElement;
 
   /**
    * amount of pairs for the game
@@ -139,21 +136,10 @@ export class Memory extends LitElement {
       this.playState = PlayState.Ready;
     } else if (this.solvedTiles.length === this.images.length / 2) {
       this.playState = PlayState.Finished;
-      this.finalizeGame();
+      this.partyHard();
     } else {
       this.playState = PlayState.Playing;
     }
-  }
-
-  private finalizeGame() {
-    confetti.create(this.canvasRef, {
-      resize: true,
-      useWorker: true,
-    })({
-      particleCount: 100,
-      spread: 160,
-      startVelocity: 30,
-    });
   }
 
   private async handleTileClick(index: number, image: string) {
@@ -173,6 +159,7 @@ export class Memory extends LitElement {
     this.isInteractive = true;
   }
 
+  @eventOptions({ passive: true })
   private async handleReloadClick() {
     this.resetGame();
     await wait(500);
@@ -194,9 +181,8 @@ export class Memory extends LitElement {
         )}
       </div>
       <div class="info">Züge: <strong>${this.challenges}</strong></div>
-      <canvas></canvas>
       <button
-        class="reload"
+        id="reload"
         ?hidden="${this.playState < PlayState.Finished}"
         @click="${() => this.handleReloadClick()}"
       >
