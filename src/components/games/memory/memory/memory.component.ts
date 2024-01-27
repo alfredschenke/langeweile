@@ -12,7 +12,7 @@ import styles from './memory.component.scss';
 
 @customElement('asm-memory')
 export class Memory extends GenericGame {
-  static readonly styles = css`
+  static override readonly styles = css`
     ${unsafeCSS(styles)}
   `;
 
@@ -63,7 +63,7 @@ export class Memory extends GenericGame {
   @state()
   private playState: PlayState = PlayState.Ready;
 
-  protected updated(changedProperties: PropertyValues<this>) {
+  protected override updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('sourcesPath')) {
       this.loadImages(this.sourcesPath);
     }
@@ -166,8 +166,10 @@ export class Memory extends GenericGame {
     this.loadImages(this.sourcesPath);
   }
 
-  render() {
+  protected override render() {
     return html`
+      ${super.render()}
+
       <div class="tiles">
         ${this.images.map(
           (image, index) => html`

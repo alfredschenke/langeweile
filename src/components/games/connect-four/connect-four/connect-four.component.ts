@@ -14,7 +14,7 @@ import styles from './connect-four.component.scss';
 
 @customElement('asm-connect-four')
 export class ConnectFour extends GenericGame {
-  static readonly styles = css`
+  static override readonly styles = css`
     ${unsafeCSS(styles)}
   `;
 
@@ -41,7 +41,7 @@ export class ConnectFour extends GenericGame {
   @property({ attribute: 'interactive', reflect: true, type: Boolean })
   isInteractive = true;
 
-  protected updated(changedProperties: PropertyValues<this>) {
+  protected override updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('columnCount')) {
       this.style.setProperty('--connect-four-column-count', `${this.columnCount}`);
     }
@@ -128,8 +128,10 @@ export class ConnectFour extends GenericGame {
   }
 
   // prettier-ignore
-  render() {
+  protected override render() {
     return html`
+      ${super.render()}
+
       <div class="board">
         ${Array.from({ length: this.columnCount }, (_, index) => html`
           <div class="column" @click="${() => this.handleColumnClick(index)}"></div>

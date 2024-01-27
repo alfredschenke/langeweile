@@ -5,7 +5,7 @@ import styles from './memory-tile.component.scss';
 
 @customElement('asm-memory-tile')
 export class MemoryTile extends LitElement {
-  static readonly styles = css`
+  static override readonly styles = css`
     ${unsafeCSS(styles)}
   `;
 
@@ -18,7 +18,7 @@ export class MemoryTile extends LitElement {
   @property({ reflect: true, type: String })
   src!: string;
 
-  render() {
+  protected override render() {
     return html`
       <figure>
         <img class="front" src="${this.src}" alt="" />

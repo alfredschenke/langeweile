@@ -7,7 +7,7 @@ import styles from './connect-four-token.component.scss';
 
 @customElement('asm-connect-four-token')
 export class ConnectFourToken extends LitElement {
-  static readonly styles = css`
+  static override readonly styles = css`
     ${unsafeCSS(styles)}
   `;
 

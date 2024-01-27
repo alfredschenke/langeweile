@@ -137,7 +137,10 @@ export function generateStandaloneQuest(options: DeepPartial<QuestOptions> = {})
   // generate alternative solutions
   const alternativeSolutions = [];
   for (let i = 0; i < alternatives; i += 1) {
-    const alternativeSolution = generateAlternativeSolution(operator, optionsWithDefaults, [solution]);
+    const alternativeSolution = generateAlternativeSolution(operator, optionsWithDefaults, [
+      solution,
+      ...alternativeSolutions,
+    ]);
     alternativeSolutions.push(alternativeSolution);
   }
 

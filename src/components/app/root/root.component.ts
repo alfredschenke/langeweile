@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import '../header/header.component.js';
 
 import { css, html, LitElement, unsafeCSS } from 'lit';
@@ -9,7 +10,7 @@ import styles from './root.component.scss';
 
 @customElement('asm-root')
 export class Root extends LitElement {
-  static readonly styles = css`
+  static override readonly styles = css`
     ${unsafeCSS(styles)}
   `;
 
@@ -20,12 +21,11 @@ export class Root extends LitElement {
     this.activeRoute = router.location.getUrl();
   }
 
-  // prettier-ignore
-  render() {
+  protected override render() {
     return html`
       <asm-header active-route="${this.activeRoute}"></asm-header>
       <main>
-        <slot @slotchange="${() => this.handleSlotChange()}"></slot>
+        <slot @slotchange="${this.handleSlotChange}"></slot>
       </main>
     `;
   }

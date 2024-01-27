@@ -13,7 +13,7 @@ import styles from './math-quests.component.scss';
 
 @customElement('asm-math-quests')
 export class MathQuests extends GenericGame {
-  static readonly styles = css`
+  static override readonly styles = css`
     ${unsafeCSS(styles)}
   `;
 
@@ -85,8 +85,10 @@ export class MathQuests extends GenericGame {
     this.interactive = true;
   }
 
-  render() {
+  protected override render() {
     return html`
+      ${super.render()}
+
       <figure id="left">${this.currentQuest?.left}</figure>
       <figure id="operator">${this.currentQuest?.operator.symbol}</figure>
       <figure id="right">${this.currentQuest?.right}</figure>

@@ -9,7 +9,7 @@ import styles from './header.component.scss';
 
 @customElement('asm-header')
 export class Root extends LitElement {
-  static readonly styles = css`
+  static override readonly styles = css`
     ${unsafeCSS(styles)}
   `;
 
@@ -20,7 +20,7 @@ export class Root extends LitElement {
     return router.urlForPath(path) === this.activeRoute;
   }
 
-  render() {
+  protected override render() {
     return html`
       <header>
         <h1>Alfreds</h1>
