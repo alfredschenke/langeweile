@@ -74,7 +74,7 @@
     "import/no-extraneous-dependencies": [
       "warn",
       {
-        "devDependencies": false
+        "devDependencies": ["**/*.test.js", "**/*.spec.ts"]
       }
     ],
     "import/no-unresolved": ["error", { "ignore": ["\\.js$"] }],
