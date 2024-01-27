@@ -19,6 +19,14 @@ export const GAMES = [
     },
   },
   {
+    path: '/games/clock-quests',
+    component: 'asm-clock-quests',
+    name: 'Uhr',
+    action: async () => {
+      await import('./components/games/clock-quests/clock-quests/clock-quests.component.js');
+    },
+  },
+  {
     path: '/games/memory',
     component: 'asm-memory',
     name: 'Memory',

@@ -1,0 +1,28 @@
+:host {
+  ---asm-clock-color-background: var(--asm-clock-color-background, var(--color-grey-medium));
+  ---asm-clock-color-border: var(--asm-clock-color-border, var(--color-black));
+  ---asm-clock-color-hands: var(--asm-clock-color-hands, var(--color-black));
+  ---asm-clock-color-tick: var(--asm-clock-color-tick, var(--color-black));
+}
+
+:host {
+  display: block;
+  aspect-ratio: 1;
+}
+
+#border {
+  fill: var(---asm-clock-color-border);
+}
+
+#background {
+  fill: var(---asm-clock-color-background);
+}
+
+#hour-hand,
+#minute-hand {
+  stroke: var(---asm-clock-color-hands);
+}
+
+.tick {
+  stroke: var(---asm-clock-color-tick);
+}
