@@ -65,6 +65,7 @@ export class ConnectFour extends GenericGame {
     // check player a result
     const gameStatusA = this.game.gameStatus();
     if (gameStatusA.gameOver) {
+      this.notifyScoreUpdate(1);
       this.finishGame(gameStatusA.solution);
       this.partyHard();
     } else {

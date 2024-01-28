@@ -136,6 +136,7 @@ export class Memory extends GenericGame {
       this.playState = PlayState.Ready;
     } else if (this.solvedTiles.length === this.images.length / 2) {
       this.playState = PlayState.Finished;
+      this.notifyScoreUpdate(1);
       this.partyHard();
     } else {
       this.playState = PlayState.Playing;
