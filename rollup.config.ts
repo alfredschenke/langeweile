@@ -11,12 +11,11 @@ import { generateImages } from 'pwa-asset-generator';
 import { defineConfig, Plugin } from 'rollup';
 import copy from 'rollup-plugin-copy';
 import del from 'rollup-plugin-delete';
+import livereload from 'rollup-plugin-livereload';
 import minifyHTML from 'rollup-plugin-minify-html-literals-v3';
 import sass from 'rollup-plugin-sass';
 import serve from 'rollup-plugin-serve';
 import { terser } from 'rollup-plugin-terser';
-
-console.log(minifyHTML);
 
 const isProd = process.argv.includes('--prod');
 const isWatch = process.argv.includes('--watch');
@@ -106,6 +105,7 @@ export default defineConfig({
         historyApiFallback: true,
         port: 3000,
       }),
+    isWatch && livereload(),
   ],
   preserveEntrySignatures: 'strict',
 });
