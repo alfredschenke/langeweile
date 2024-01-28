@@ -1,11 +1,13 @@
 # https://answers.netlify.com/t/using-pnpm-and-pnpm-workspaces/2759/17
 [build.environment]
-  NPM_FLAGS = "--version"
+NPM_FLAGS = "--version"
 
 [build]
-  publish = "dist"
-  command = """
+publish = "dist"
+command = """
     PNPM_VERSION=$(node -p -e "require('./package.json').devDependencies.pnpm")
     npx pnpm@${PNPM_VERSION} i --frozen-lockfile &&
+    npx pnpm@${PNPM_VERSION} lint &&
+    npx pnpm@${PNPM_VERSION} test &&
     npx pnpm@${PNPM_VERSION} build
   """
