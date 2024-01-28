@@ -72,8 +72,9 @@ export class MathQuests extends GenericGame {
     });
 
     if (choice === this.currentQuest?.solution) {
-      this.partyHard();
+      this.notifyScoreUpdate(1);
       this.correctQuests += 1;
+      this.partyHard();
       await wait(this.waitOnSuccess);
     } else {
       button.classList.add('error');

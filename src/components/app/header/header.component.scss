@@ -1,15 +1,15 @@
 header,
 header nav {
   display: flex;
-  align-items: flex-end;
   flex-direction: row;
 }
 
 header {
+  align-items: flex-start;
   margin: 0 0 30px;
   text-transform: uppercase;
 
-  background: url(/assets/icons/icon.png) no-repeat 0 .3vw / 2.2vw;
+  background: url(/assets/icons/icon.png) no-repeat 0 0.3vw / 2.2vw;
   padding-left: 2.6vw;
 
   h1,
@@ -26,12 +26,30 @@ header {
     font-weight: 600;
   }
 
-  nav a {
-    margin-left: 20px;
+  nav {
+    align-items: flex-end;
 
-    &.active {
-      border-bottom: 2px solid currentColor;
-      padding-bottom: 2px;
+    a {
+      margin-left: 20px;
+
+      &.active {
+        border-bottom: 2px solid currentColor;
+        padding-bottom: 2px;
+      }
+    }
+  }
+
+  figure {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 0 auto;
+    text-align: right;
+
+    strong {
+      font-size: 2.34vw;
+    }
+
+    span {
     }
   }
 }

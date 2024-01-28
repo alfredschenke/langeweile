@@ -6,6 +6,17 @@ import { styleMap } from 'lit/directives/style-map.js';
 export class GenericGame extends LitElement {
   #confetti?: CreateTypes;
 
+  notifyScoreUpdate(score: number) {
+    this.dispatchEvent(
+      new CustomEvent('score-update', {
+        detail: score,
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+      }),
+    );
+  }
+
   partyHard() {
     this.#confetti?.({
       particleCount: 100,
