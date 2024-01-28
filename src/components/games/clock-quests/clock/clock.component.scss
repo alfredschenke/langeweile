@@ -26,3 +26,9 @@
 .tick {
   stroke: var(---asm-clock-color-tick);
 }
+
+.label {
+  font-size: 0.5em;
+  text-anchor: middle;
+  border: 1px solid red;
+}

@@ -57,6 +57,19 @@ export class Clock extends LitElement {
         />
 
         ${map(
+          range(12),
+          (i) => svg`
+            <text
+              class="label"
+              x="50"
+              y="17"
+              transform="rotate(${((i + 1) / 12) * 360}, 50, 50) rotate(${((i + 1) / 12) * -360}, 50, 14)"
+            >
+              ${i + 1}
+            </text>
+          `,
+        )}
+        ${map(
           range(60),
           (i) => svg`
             <line
