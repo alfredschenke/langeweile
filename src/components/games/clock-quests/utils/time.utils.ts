@@ -1,40 +1,36 @@
 const COUNT = [
-  ['null'],
-  ['eins', 'ein'],
-  ['zwei'],
-  ['drei'],
-  ['vier'],
-  ['fünf'],
-  ['sechs'],
-  ['sieben'],
-  ['acht'],
-  ['neun'],
-  ['zehn'],
-  ['elf'],
-  ['zwölf'],
-  ['dreizehn'],
-  ['vierzehn'],
-  ['fünfzehn'],
-  ['sechszehn'],
-  ['siebzehn'],
-  ['achtzehn'],
-  ['neunzehn'],
-  ['zwanzig'],
-  ['einundzwanzig'],
-  ['zweiundzwanzig'],
-  ['dreiundzwanzig'],
-  ['vierundzwanzig'],
-  ['fünfundzwanzig'],
-  ['sechsundzwanzig'],
-  ['siebenundzwanzig'],
-  ['achtundzwanzig'],
-  ['neunundzwanzig'],
-  ['dreißig'],
+  'null',
+  'eins',
+  'zwei',
+  'drei',
+  'vier',
+  'fünf',
+  'sechs',
+  'sieben',
+  'acht',
+  'neun',
+  'zehn',
+  'elf',
+  'zwölf',
+  'dreizehn',
+  'vierzehn',
+  'fünfzehn',
+  'sechszehn',
+  'siebzehn',
+  'achtzehn',
+  'neunzehn',
+  'zwanzig',
+  'einundzwanzig',
+  'zweiundzwanzig',
+  'dreiundzwanzig',
+  'vierundzwanzig',
+  'fünfundzwanzig',
+  'sechsundzwanzig',
+  'siebenundzwanzig',
+  'achtundzwanzig',
+  'neunundzwanzig',
+  'dreißig',
 ];
-
-export function count(n: number, alt = false): string | undefined {
-  return COUNT[n][alt ? 1 : 0] ?? count(n);
-}
 
 export function readableTime(date: Date): string {
   const h = date.getHours() % 12 || 12;
@@ -43,25 +39,25 @@ export function readableTime(date: Date): string {
 
   switch (m) {
     case 0:
-      return `${count(h, true)} Uhr`;
+      return `um ${COUNT[h]}`;
     case 15:
-      return `viertel ${count(n)}`;
+      return `viertel ${COUNT[n]}`;
     case 30:
-      return `halb ${count(n)}`;
+      return `halb ${COUNT[n]}`;
     case 45:
-      return `dreiviertel ${count(n)}`;
+      return `dreiviertel ${COUNT[n]}`;
     default: {
       if (m < 15) {
-        return `${count(m)} nach ${count(h)}`;
+        return `${COUNT[m]} nach ${COUNT[h]}`;
       }
       if (m > 15 && m < 30) {
-        return `${count(30 - m)} vor halb ${count(n)}`;
+        return `${COUNT[30 - m]} vor halb ${COUNT[n]}`;
       }
       if (m > 30 && m < 45) {
-        return `${count(m - 30)} nach halb ${count(n)}`;
+        return `${COUNT[m - 30]} nach halb ${COUNT[n]}`;
       }
       if (m > 45) {
-        return `${count(60 - m)} vor ${count(n)}`;
+        return `${COUNT[60 - m]} vor ${COUNT[n]}`;
       }
     }
   }

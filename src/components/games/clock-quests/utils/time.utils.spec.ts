@@ -5,10 +5,10 @@ import { readableTime } from './time.utils.js';
 describe('clock.utils', () => {
   describe('readableTime', () => {
     it('returns full hours', () => {
-      expect(readableTime(new Date(0, 0, 0, 1, 0, 0))).toBe('ein Uhr');
-      expect(readableTime(new Date(0, 0, 0, 6, 0, 0))).toBe('sechs Uhr');
-      expect(readableTime(new Date(0, 0, 0, 12, 0, 0))).toBe('zwölf Uhr');
-      expect(readableTime(new Date(0, 0, 0, 15, 0, 0))).toBe('drei Uhr');
+      expect(readableTime(new Date(0, 0, 0, 1, 0, 0))).toBe('um eins');
+      expect(readableTime(new Date(0, 0, 0, 6, 0, 0))).toBe('um sechs');
+      expect(readableTime(new Date(0, 0, 0, 12, 0, 0))).toBe('um zwölf');
+      expect(readableTime(new Date(0, 0, 0, 15, 0, 0))).toBe('um drei');
     });
 
     it('returns half hours', () => {
